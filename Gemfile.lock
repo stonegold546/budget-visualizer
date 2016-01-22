@@ -1,0 +1,32 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    chartkick (1.4.1)
+    kramdown (1.9.0)
+    puma (2.15.3)
+    rack (1.6.4)
+    rack-protection (1.5.3)
+      rack
+    rack-ssl-enforcer (0.2.9)
+    rake (10.5.0)
+    sinatra (1.4.6)
+      rack (~> 1.4)
+      rack-protection (~> 1.4)
+      tilt (>= 1.3, < 3)
+    slim (3.0.6)
+      temple (~> 0.7.3)
+      tilt (>= 1.3.3, < 2.1)
+    temple (0.7.6)
+    tilt (2.0.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  chartkick
+  kramdown
+  puma
+  rack-ssl-enforcer
+  rake
+  sinatra
+  slim

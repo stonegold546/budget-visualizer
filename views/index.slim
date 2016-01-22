@@ -1,0 +1,143 @@
+- mda_recurrent = mda_column.map { |mda, values| [mda, values[0]] }
+- mda_recurrent = mda_recurrent.sort_by { |mda, value| value }.reverse
+- mda_capital = mda_column.map { |mda, values| [mda, values[1]] }
+- mda_capital = mda_capital.sort_by { |mda, value| value }.reverse
+
+- sum_values = mda_total_recurrent + mda_total_capital
+- mda_recurrent_percent = mda_pie.map { |mda, values| [mda, values[0]] }
+- mda_capital_percent = mda_pie.map { |mda, values| [mda, values[1]] }
+- mda_recurrent_percent_value = (mda_total_recurrent.to_f / sum_values * 100).round 2
+- mda_capital_percent_value = (mda_total_capital.to_f / sum_values * 100).round 2
+
+div id='pie-container' style='min-width: 310px; height: 400px; margin: 0 auto'
+
+div id='container' style='min-width: 310px; height: 400px; margin: 0 auto'
+
+javascript:
+  var mda_recurrent = JSON.parse("#{mda_recurrent}".replace(/&quot;/g, '"').replace(/amp;/g, ''));
+  var mda_capital = JSON.parse("#{mda_capital}".replace(/&quot;/g, '"').replace(/amp;/g, ''));
+  var mda_recurrent_percent = JSON.parse("#{mda_recurrent_percent}".replace(/&quot;/g, '"').replace(/amp;/g, ''));
+  var mda_capital_percent = JSON.parse("#{mda_capital_percent}".replace(/&quot;/g, '"').replace(/amp;/g, ''));
+  $(function () {
+    // Create the chart
+    $('#pie-container').highcharts({
+        chart: {
+            type: 'pie'
+        },
+        title: {
+            text: 'Visualize the Nigerian Budget Proposal'
+        },
+        subtitle: {
+            text: 'Click a pie to view by MDA. Source: <a href="http://yourbudgit.com/wp-content/uploads/2016/01/Consolidated-Appropriation_Bill__Details_2016_2.pdf">yourbudgit.com</a>.'
+        },
+        xAxis: {
+            type: 'Type of Expenditure'
+        },
+        yAxis: {
+            title: {
+                text: 'Naira Value'
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        plotOptions: {
+           series: {
+               dataLabels: {
+                   enabled: true,
+                   format: '{point.name}: {point.y:.1f}%'
+               }
+           }
+        },
+        tooltip: {
+            headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}%</b> of budget<br/>'
+        },
+        series: [{
+            name: 'Type of Expenditure',
+            colorByPoint: true,
+            data: [{
+                name: 'Recurrent Expenditure',
+                y: #{mda_recurrent_percent_value},
+                drilldown: 'MDA Recurrent Percent'
+            }, {
+                name: 'Capital Expenditure',
+                y: #{mda_capital_percent_value},
+                drilldown: 'MDA Capital Percent'
+            }]
+        }],
+        drilldown: {
+            series: [{
+                name: 'Recurrent Expenditures of MDAs',
+                id: 'MDA Recurrent Percent',
+                data: mda_recurrent_percent
+            }, {
+                name: 'Capital Expenditures of MDAs',
+                id: 'MDA Capital Percent',
+                data: mda_capital_percent
+            }]
+        }
+    });
+  });
+  $(function () {
+    // Create the chart
+    $('#container').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Visualize the Nigerian Budget Proposal'
+        },
+        subtitle: {
+            text: 'Click a column to view by MDA. Source: <a href="http://yourbudgit.com/wp-content/uploads/2016/01/Consolidated-Appropriation_Bill__Details_2016_2.pdf">yourbudgit.com</a>.'
+        },
+        xAxis: {
+            type: 'category'
+        },
+        yAxis: {
+            title: {
+                text: 'Naira Value'
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                    format: 'N {point.y}'
+                }
+            }
+        },
+        tooltip: {
+            headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>N{point.y}</b><br/>'
+        },
+        series: [{
+            name: 'Type of Expenditure',
+            colorByPoint: true,
+            data: [{
+                name: 'Recurrent Expenditure',
+                y: #{mda_total_recurrent},
+                drilldown: 'MDA Recurrent'
+            }, {
+                name: 'Capital Expenditure',
+                y: #{mda_total_capital},
+                drilldown: 'MDA Capital'
+            }]
+        }],
+        drilldown: {
+            series: [{
+                name: 'Recurrent Expenditures of MDAs',
+                id: 'MDA Recurrent',
+                data: mda_recurrent
+            }, {
+                name: 'Capital Expenditures of MDAs',
+                id: 'MDA Capital',
+                data: mda_capital
+            }]
+        }
+    });
+  });
