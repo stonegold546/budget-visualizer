@@ -1,7 +1,6 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    chartkick (1.4.1)
     kramdown (1.9.0)
     puma (2.15.3)
     rack (1.6.4)
@@ -23,7 +22,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  chartkick
   kramdown
   puma
   rack-ssl-enforcer

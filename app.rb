@@ -3,13 +3,10 @@ require 'slim'
 require 'slim/include'
 require 'rack-ssl-enforcer'
 require 'json'
-require 'chartkick'
 require 'yaml'
 
 # The Nigerian Budget visualizer
 class ViewTheBudget < Sinatra::Base
-  # summary_by_fund = YAML.load File.read('./data/summary_by_fund.yml')
-
   summary_by_mda = YAML.load File.read('./data/summary_by_mda.yml')
 
   summary_by_mda = summary_by_mda.map do |mda, values|
@@ -42,9 +39,5 @@ class ViewTheBudget < Sinatra::Base
       mda_column: column_by_mda, mda_pie: pie_by_mda,
       mda_total_recurrent: total_recurrent, mda_total_capital: total_capital
     }
-  end
-
-  get '/okay' do
-    slim :indexa
   end
 end
