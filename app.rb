@@ -4,6 +4,7 @@ require 'slim/include'
 require 'rack-ssl-enforcer'
 require 'json'
 require 'yaml'
+require 'tilt/kramdown'
 
 # The Nigerian Budget visualizer
 class ViewTheBudget < Sinatra::Base
@@ -39,5 +40,9 @@ class ViewTheBudget < Sinatra::Base
       mda_column: column_by_mda, mda_pie: pie_by_mda,
       mda_total_recurrent: total_recurrent, mda_total_capital: total_capital
     }
+  end
+
+  get '/keybase.txt' do
+    File.read(File.join('public', 'keybase.txt'))
   end
 end
